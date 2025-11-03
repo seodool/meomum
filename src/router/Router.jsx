@@ -6,7 +6,7 @@ import Layout from '../components/layout/Layout';
 
 function Router() {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Routes>
           <Route element={<Layout />}>
             <Route path='/' element={<HomePage />} />
