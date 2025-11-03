@@ -1,0 +1,28 @@
+.login-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 259px;
+  height: 56px;
+  border-radius: 100px;
+  cursor: pointer;
+  font-family: 'Pretendard Variable', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22.4px;
+  transition: 0.2s;
+}
+
+.login-card:hover {
+  opacity: 0.9;
+}
+
+.login-icon {
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.login-text {
+  text-align: center;
+  white-space: nowrap;
+}

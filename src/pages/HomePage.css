@@ -1,0 +1,14 @@
+.login-button {
+  color: #000000;
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%; /* 18.2px */
+  letter-spacing: -0.35px;
+  width: 50px;
+  border-bottom: 1px solid #000000;
+  margin-top: 25px;
+  cursor: pointer;
+}

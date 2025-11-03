@@ -1,0 +1,54 @@
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;         /* 가로 중앙 정렬 */
+  justify-content: space-between; /* 상단, 버튼, 하단 배치 */
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+
+.meomum-logo {
+  width: 126px;
+  height: auto;  /* 자동 비율 유지 */
+  margin-top: 127px;
+}
+
+.title-section {
+  width: 250px;
+  height: 77px;
+  flex-shrink: 0;
+  margin-top: 21px;
+}
+
+.login-title {
+  color: #000;
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 130%; /* 36.4px */
+  letter-spacing: -0.7px;
+}
+
+.login-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 159px;
+}
+
+.signup-button {
+  color: #000000;
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%; /* 18.2px */
+  letter-spacing: -0.35px;
+  width: 100px;
+  border-bottom: 1px solid #000000;
+  margin-top: 25px;
+  cursor: pointer;
+}
