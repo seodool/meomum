@@ -5,10 +5,142 @@
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
-  line-height: 130%; /* 18.2px */
+  line-height: 130%; /* 18.2px*/
   letter-spacing: -0.35px;
   width: 50px;
   border-bottom: 1px solid #000000;
   margin-top: 25px;
+  cursor: pointer;
+}
+
+.page-home {
+  padding-top: 20px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.login-text {
+  font-size: 14px;
+  color: var(--text-gray);
+}
+
+.search-wrapper {
+  margin-top: 15px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #f7f7f7;
+  padding: 12px 15px;
+  border-radius: 12px;
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+  stroke: #666;
+  margin-right: 8px;
+}
+
+.search-text {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  width: 100%;
+  background: transparent;
+}
+
+.home-main-panel {
+  margin-top: 20px;
+}
+
+.tab-container {
+  margin-bottom: 15px;
+}
+
+.tab-wrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.tab-btn {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  background: #e8e8e8;
+  color: #555;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.hero-text h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.hero-text p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* ----- Swiper Card ----- */
+.mySwiper {
+  width: 100%;
+  max-width: 360px;
+  margin: auto;
+}
+
+.card-img {
+  border-radius: 14px;
+  width: 100%;
+  height: 460px;
+  object-fit: cover;
+}
+
+.card-overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+}
+
+.card-title {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.heart-icon {
+  width: 26px;
+  height: 26px;
+  fill: white;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+/* CTA button */
+.cta-area {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.cta-btn {
+  width: 100%;
+  padding: 14px 0;
+  border-radius: 12px;
+  border: none;
+  background: var(--primary-blue);
+  color: white;
+  font-size: 16px;
   cursor: pointer;
 }

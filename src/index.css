@@ -1,5 +1,46 @@
-html, body {
+body {
+  background-color: #FFFFFF !important;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+:root {
+  --primary-blue: #0085FF;
+  --bg-gray: #FFFFFF;
+  --text-black: #111111;
+  --nav-inactive: #999999;
+  --border-gray: #E0E0E0;
+  --gray-bg: #f2f3f8;
+  --text-gray: #7d7d7d;
+  --nav-gray: #525b62;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 420px;
+  background-color: var(--bg-gray);
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 85px; /* 하단바 공간 확보 */
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 30px rgba(0,0,0,0.1);
+}
+
+* {
   margin: 0;
   padding: 0;
-  height: 100%;
+  box-sizing: border-box;
+  font-family: "Pretendard Variable", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* page wrapper */
+.page {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
 }
