@@ -1,0 +1,77 @@
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-ai-card {
+  margin-top: 20px;
+  padding: 20px;
+  background: #e8f2ff;
+  border-radius: 14px;
+}
+
+.chat-ai-label {
+  background: #d0e6ff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.chat-ai-sub {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.chat-ai-greeting-line {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.chat-ai-start-btn {
+  width: 100%;
+  margin-top: 18px;
+  background: var(--primary-blue);
+  color: white;
+  border: none;
+  padding: 12px 0;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.chat-list {
+  margin-top: 20px;
+}
+
+.chat-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.chat-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #ececec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-avatar-ai {
+  background: #d8eaff;
+}
+
+.chat-name-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.chat-preview {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #666;
+}

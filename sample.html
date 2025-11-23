@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>MEOMUM - Unified Spacing</title>
+
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<style>
+  :root {
+    --primary-blue: #0085FF;
+    --bg-gray: #FFFFFF;
+    --text-black: #111111;
+    --nav-inactive: #999999;
+    --border-gray: #E0E0E0;
+    --gray-bg: #f2f3f8;
+    --text-gray: #7d7d7d;
+    --nav-gray: #525b62;
+  }
+
+  * { box-sizing: border-box; font-family: "Pretendard Variable", sans-serif; -webkit-font-smoothing: antialiased; }
+
+  body {
+    background-color: #FFFFFF !important;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .app-container {
+    width: 100%;
+    max-width: 420px;
+    background-color: var(--bg-gray);
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 85px;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+  }
+
+  /* 공통 Page 레이아웃 */
+  .page {
+    min-height: calc(100vh - 85px);
+    display: none; /* 기본 숨김 */
+  }
+
+  /* =========================================
+     [1] 홈 페이지 (상단 여백 수정됨)
+     ========================================= */
+  .page-home {
+    background-color: #F4F5F9;
+    display: block; /* 초기 로드 시 보임 */
+  }
+
+  .page-home > header,
+  .page-home .search-wrapper {
+    background-color: #FFFFFF;
+  }
+
+  /* 수정: 상단 패딩 50px -> 20px로 축소 */
+  .page-home > header { 
+    display:flex; justify-content:space-between; align-items:center; 
+    padding: 20px 24px 15px; flex-shrink:0; 
+  }
+
+  .logo { font-size: 22px; font-weight: 800; color: var(--text-black); letter-spacing: -0.5px; }
+  .login-text { 
+    font-size: 14px; font-weight: 600; color: #333; 
+    cursor: pointer;
+    border: 1px solid var(--border-gray);
+    border-radius: 20px;
+    padding: 8px 16px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+
+  .search-wrapper { padding: 0 24px 15px; background: var(--bg-gray); flex-shrink: 0; }
+  .search-box {
+    background-color: #f4f5f9;
+    border-radius: 10px;
+    height: 52px;
+    display: flex; align-items: center; padding: 0 18px;
+    box-shadow: none; border: none;
+  }
+  .search-icon { width: 20px; height: 20px; stroke: #888; margin-right: 10px; fill: none; stroke-width: 2; }
+  .search-text { border: none; font-size: 16px; width: 100%; outline: none; background: transparent; color: #333; }
+  .search-text::placeholder { color: #A0A0A0; }
+
+  .home-main-panel {
+    background-color: #F4F5F9;
+    border-radius: 20px 20px 0 0;
+    padding: 16px 24px 32px;
+    min-height: calc(100vh - 120px);
+    box-sizing: border-box;
+  }
+
+  .tab-container { 
+    position: relative; display: flex; justify-content: center; 
+    margin: 10px 0 25px; flex-shrink: 0;
+  }
+  .tab-container::before {
+    content: ""; position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+    width: 64px; height: 4px; border-radius: 999px; background-color: #d3d5dd;
+  }
+  .tab-wrapper {
+    background-color: #E8E9ED; padding: 3px; border-radius: 10px;
+    display: flex; width: 260px; gap: 3px;
+  }
+  .tab-btn { 
+    flex: 1; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 700; 
+    border-radius: 10px; cursor: pointer; color: #767676; transition: 0.3s;
+  }
+  .tab-btn.active { background-color: var(--primary-blue); color: white; box-shadow: 0 2px 5px rgba(0,133,255,0.2); }
+
+  .hero-text { padding: 0; margin-bottom: 10px; flex-shrink: 0; }
+  .hero-text h2 { font-size: 24px; font-weight: 700; color: var(--text-black); margin-bottom: 6px; line-height: 1.3; }
+  .hero-text p { font-size: 14px; color: #888; font-weight: 500; }
+
+  /* Swiper (Home) */
+  .swiper { width: 298px; height: 349px; margin-top: 0; overflow: visible; flex-shrink: 0; }
+  .swiper-slide {
+    border-radius: 24px; background-color: #fff; overflow: hidden;
+    filter: brightness(0.88); opacity: 1; transition: all 0.3s ease;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.16);
+  }
+  .swiper-slide-active { filter: brightness(1); box-shadow: 0 18px 40px rgba(0,0,0,0.25); z-index: 10; }
+  .swiper-slide .card-title, .swiper-slide .heart-icon { opacity: 0; transition: opacity 0.3s ease; }
+  .swiper-slide-active .card-title, .swiper-slide-active .heart-icon { opacity: 1; }
+
+  .card-img { width: 100%; height: 100%; object-fit: cover; }
+  .card-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.6) 100%);
+    padding: 25px; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .card-title { color: white; font-size: 26px; font-weight: 700; line-height: 1.3; text-shadow: 0 2px 10px rgba(0,0,0,0.5); margin-top: 20px; }
+  .heart-icon { width: 28px; height: 28px; fill: none; stroke: white; stroke-width: 2; align-self: flex-end; cursor: pointer; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.3)); }
+
+  .swiper-pagination-custom {
+    position: relative; margin: 25px 0; display: flex; justify-content: center; width: 100%; height: 20px; z-index: 50;
+  }
+  .swiper-pagination-bullet { width: 8px; height: 8px; background-color: #D1D1D1; margin: 0 5px !important; border-radius: 50%; transition: all 0.3s ease; cursor: pointer; }
+  .swiper-pagination-bullet-active { background-color: var(--primary-blue); width: 10px; height: 10px; }
+
+  .cta-area { padding: 0; margin-top: 0; }
+  .cta-btn {
+    width: 100%; height: 54px; background-color: var(--primary-blue); color: white;
+    font-size: 16px; font-weight: 700; border: none; border-radius: 14px;
+    cursor: pointer; box-shadow: 0 5px 15px rgba(0,133,255,0.3);
+  }
+
+  /* =========================================
+     [2] 커뮤니티 페이지 (상단 여백 수정됨)
+     ========================================= */
+  .page-community {
+    padding: 0;
+    background-color: #ffffff;
+    padding-bottom: 40px;
+  }
+
+  /* 수정: 상단 패딩 50px -> 20px로 축소 */
+  .comm-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 20px 10px; 
+    background: #fff; position: sticky; top: 0; z-index: 100;
+  }
+  .comm-header h2 { font-size: 24px; font-weight: 800; margin: 0; }
+  .comm-header-icon { width: 24px; height: 24px; stroke: #111; stroke-width: 2; fill: none; cursor: pointer; }
+
+  .comm-tabs {
+    display: flex; gap: 20px; padding: 10px 20px 15px;
+    overflow-x: auto; border-bottom: 1px solid #f1f1f1; background: #fff;
+    -ms-overflow-style: none; scrollbar-width: none;
+  }
+  .comm-tabs::-webkit-scrollbar { display: none; }
+  .comm-tab-item { font-size: 15px; font-weight: 500; color: #999; white-space: nowrap; cursor: pointer; }
+  .comm-tab-item.active { font-weight: 700; color: #111; }
+
+  .comm-banner {
+    margin: 20px 20px 30px; height: 160px; border-radius: 16px;
+    background-image: url('https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&w=800&auto=format&fit=crop');
+    background-size: cover; background-position: center; position: relative; overflow: hidden;
+  }
+  .comm-banner-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.3); padding: 24px;
+    display: flex; flex-direction: column; justify-content: flex-start;
+  }
+  .comm-banner-label { font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 6px; }
+  .comm-banner-title { font-size: 20px; font-weight: 700; color: #fff; }
+
+  .comm-section { margin-bottom: 40px; }
+  .comm-section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px; padding: 0 20px; }
+  .comm-title { font-size: 18px; font-weight: 700; color: #111; margin-bottom: 4px; }
+  .comm-subtitle { font-size: 13px; color: #666; font-weight: 400; }
+  .comm-more-link { font-size: 13px; color: #888; cursor: pointer; }
+
+  .comm-scroll-row {
+    display: flex; gap: 12px; overflow-x: auto; padding: 0 20px;
+    padding-bottom: 10px; -ms-overflow-style: none; scrollbar-width: none;
+  }
+  .comm-scroll-row::-webkit-scrollbar { display: none; }
+
+  .cat-card { flex: 0 0 100px; height: 100px; border-radius: 16px; position: relative; overflow: hidden; }
+  .cat-img { width: 100%; height: 100%; object-fit: cover; }
+  .cat-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+    display: flex; align-items: flex-end; padding: 10px;
+  }
+  .cat-text { color: white; font-size: 14px; font-weight: 600; }
+
+  .review-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 0 20px; }
+  .review-card { display: flex; flex-direction: column; }
+  .review-img-box { width: 100%; aspect-ratio: 1/1; border-radius: 16px; overflow: hidden; margin-bottom: 10px; }
+  .review-img { width: 100%; height: 100%; object-fit: cover; }
+  .review-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; line-height: 1.3; }
+  .review-desc { font-size: 12px; color: #777; line-height: 1.4; display: -webkit-box; line-clamp: 2; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+  .magazine-card { flex: 0 0 260px; border-radius: 16px; overflow: hidden; background-color: #F4F5F9; }
+  .mag-img-box { height: 160px; width: 100%; }
+  .mag-img { width: 100%; height: 100%; object-fit: cover; }
+  .mag-content { padding: 16px; }
+  .mag-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .mag-desc { font-size: 13px; color: #555; line-height: 1.4; }
+
+  .group-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 20px; }
+  .group-card {
+    height: 70px; border-radius: 12px; display: flex; align-items: center;
+    padding: 0 16px; color: white; font-size: 15px; font-weight: 700;
+    cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .gc-blue { background-color: #4A90E2; }
+  .gc-purple { background-color: #5800D6; }
+  .gc-pink { background-color: #D84594; }
+  .gc-orange { background-color: #F5A64D; }
+  .gc-green { background-color: #52AA8A; }
+  .gc-navy { background-color: #1A2B86; }
+
+  .qna-box { margin: 0 20px; background-color: #F0F2F5; border-radius: 16px; padding: 24px 20px; }
+  .qna-title { font-size: 17px; font-weight: 700; margin-bottom: 20px; }
+  .qna-list { list-style: none; padding: 0; margin: 0 0 20px; }
+  .qna-item { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; }
+  .qna-time { font-size: 12px; color: #888; }
+  .qna-btn { width: 100%; padding: 12px; border-radius: 8px; border: none; background-color: #E1E3E8; color: #333; font-size: 14px; font-weight: 600; cursor: pointer; text-align: center; }
+
+
+  /* =========================================
+     [3] 예약 페이지 (상단 여백 수정됨)
+     ========================================= */
+  .page-reservation {
+    padding: 20px;
+    background-color: #FFFFFF;
+    padding-bottom: 40px;
+  }
+
+  /* 수정: 상단 패딩 제거 (컨테이너 padding:20px과 합쳐서 20px) */
+  .reservation-header-custom {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px; padding-top: 0; 
+  }
+  .reservation-header-custom h2 { font-size: 24px; font-weight: 800; color: #111; margin: 0; }
+  .header-links { display: flex; gap: 12px; }
+  .header-links span { font-size: 14px; color: #666; font-weight: 500; cursor: pointer; }
+
+  .reservation-hero-card {
+    position: relative; border-radius: 20px; overflow: hidden;
+    height: 180px; width: 100%; margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .reservation-hero-img { width: 100%; height: 100%; object-fit: cover; }
+  .reservation-hero-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.4) 100%);
+  }
+  .reservation-hero-title {
+    position: absolute; left: 20px; top: 20px;
+    font-size: 22px; font-weight: 700; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  .reservation-hero-btn {
+    position: absolute; right: 15px; bottom: 15px;
+    padding: 6px 12px; border-radius: 6px; border: none;
+    background-color: rgba(0, 0, 0, 0.5); color: #ffffff;
+    font-size: 12px; font-weight: 500; cursor: pointer; backdrop-filter: blur(4px);
+  }
+
+  .date-chip-row { display: flex; justify-content: space-between; margin-bottom: 24px; }
+  .date-chip {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600; background-color: #F2F4F6;
+    color: #333; border: none; cursor: pointer;
+  }
+  .date-chip.active { background-color: #2F80ED; color: #ffffff; box-shadow: 0 4px 10px rgba(47, 128, 237, 0.3); }
+
+  .reservation-card {
+    background-color: #F5F6F8; border-radius: 20px;
+    padding: 24px 20px; margin-bottom: 16px; box-shadow: none;
+  }
+  .reservation-card::after { content: ""; display: block; clear: both; }
+
+  .reservation-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .reservation-card-header h3 { font-size: 17px; font-weight: 700; color: #111; margin: 0; }
+  .reservation-card-header .link-sm { font-size: 13px; color: #767676; cursor: pointer; }
+
+  .mission-list { list-style: none; padding: 0; margin: 0; }
+  .mission-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; font-size: 15px; color: #333; }
+
+  .mission-checkbox {
+    width: 24px; height: 24px; border-radius: 6px;
+    background-color: #E0E2E7; cursor: pointer; position: relative; transition: background-color 0.2s;
+  }
+  .mission-checkbox.done { background-color: #2F80ED; }
+  .mission-checkbox.done::after {
+    content: ""; position: absolute; left: 8px; top: 4px; width: 5px; height: 10px;
+    border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg);
+  }
+
+  .reservation-subtext { font-size: 13px; color: #999; margin-top: -12px; margin-bottom: 16px; }
+  .mission-main-button {
+    width: 100%; height: 56px; border-radius: 12px; border: none;
+    margin-bottom: 8px; font-size: 15px; font-weight: 600; cursor: pointer;
+  }
+  .mission-main-button.primary { background-color: #2F80ED; color: white; box-shadow: 0 4px 10px rgba(47, 128, 237, 0.2); }
+  .mission-main-button.secondary { background-color: #E3E5EA; color: #7D7D7D; margin-bottom: 0; }
+
+  .diary-text { font-size: 14px; line-height: 1.5; color: #333; margin-bottom: 12px; }
+  .diary-write-btn {
+    float: right; padding: 6px 14px; background-color: #E3E5EA;
+    color: #555; font-size: 13px; font-weight: 600; border-radius: 8px; border: none; cursor: pointer;
+  }
+
+  .routine-list { margin-top: 0; padding: 0; list-style: none; }
+  .routine-item { font-size: 14px; margin-bottom: 6px; color: #333; }
+  .routine-desc { font-size: 13px; color: #777; margin-left: 2px; }
+
+  .reservation-cta-btn-large {
+    width: 100%; height: 80px; background-color: #2F80ED; border-radius: 16px;
+    border: none; color: white; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; cursor: pointer;
+    margin-top: 10px; box-shadow: 0 8px 20px rgba(47, 128, 237, 0.25);
+  }
+  .cta-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .cta-desc { font-size: 13px; font-weight: 400; opacity: 0.9; }
+
+  /* =========================================
+     [4] 채팅 & 더보기 (원본 유지)
+     ========================================= */
+  .page-chat, .page-more { padding: 20px; background-color: #ffffff; }
+
+  /* 채팅 스타일 */
+  .chat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding:0; }
+  .chat-header h2 { font-size: 22px; font-weight: 700; }
+  .chat-header button { border: none; background: none; font-size: 14px; color: var(--text-gray); cursor: pointer; }
+  
+  .chat-ai-card {
+    border-radius: 16px; padding: 20px 18px 22px;
+    background: linear-gradient(233deg, #72e3ff 0%, #0184e4 100%);
+    color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.15); margin-bottom: 22px; text-align: left;
+  }
+  .chat-ai-label { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .chat-ai-sub { font-size: 13px; opacity: 0.9; margin-bottom: 18px; }
+  .chat-ai-greeting-line { font-size: 22px; font-weight: 700; line-height: 1.45; }
+  .chat-ai-greeting { margin-bottom: 18px; }
+  .chat-ai-start-btn { width: 100%; height: 48px; border-radius: 10px; border: none; background-color: #fff; color: #000; font-size: 16px; font-weight: 500; cursor: pointer; }
+
+  .chat-list-section h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .chat-list { list-style: none; padding: 0; margin: 0; }
+  .chat-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f3; }
+  .chat-avatar {
+    width: 48px; height: 48px; border-radius: 12px; background-color: #e5e5ec;
+    margin-right: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  .chat-avatar-ai { background-color: #018cf1; color: #ffffff; font-size: 16px; font-weight: 600; }
+  .chat-texts { flex: 1; min-width: 0; }
+  .chat-name-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
+  .chat-name { font-size: 15px; font-weight: 600; }
+  .chat-time { font-size: 11px; color: var(--text-gray); white-space: nowrap; }
+  .chat-preview { font-size: 13px; color: var(--text-gray); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* 더보기 스타일 */
+  .more-header { margin-bottom: 12px; padding: 0; }
+  .more-header h2 { font-size: 22px; font-weight: 700; }
+  .more-header p { font-size: 14px; color: var(--text-gray); margin-top: 4px; }
+  
+  .mypage-card {
+    background-color: #f2f3f8; border-radius: 10px; box-shadow: 0 0 8.6px rgba(0,0,0,0.25);
+    padding: 20px 18px 18px; margin-bottom: 16px;
+  }
+  .mypage-title { font-size: 18px; font-weight: 600; margin-bottom: 18px; }
+  .mypage-avatar { display: flex; justify-content: center; margin-bottom: 16px; }
+  .mypage-avatar-icon {
+    width: 72px; height: 72px;
+    display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--primary-blue);
+  }
+  .mypage-link-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; row-gap: 12px; font-size: 14px; }
+  .mypage-link { border: none; background: none; padding: 0; text-align: left; font-size: 14px; font-weight: 500; color: var(--text-black); cursor: pointer; }
+  
+  .more-report-card {
+    background-color: var(--primary-blue); border-radius: 10px; padding: 18px 16px 16px;
+    color: #ffffff; margin-bottom: 24px; box-shadow: 0 0 8.6px rgba(0,0,0,0.25);
+  }
+  .more-report-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .more-report-title { font-size: 18px; font-weight: 600; }
+  .more-report-more { border: none; background: none; color: #ffffff; font-size: 13px; cursor: pointer; }
+  
+  .report-item { background-color: #ffffff; border-radius: 10px; padding: 12px 14px; margin-top: 8px; color: #000000; }
+  .report-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; margin-bottom: 4px; }
+  .report-location { font-weight: 600; }
+  .report-date { font-size: 11px; color: var(--text-gray); }
+  .report-snippet { font-size: 13px; color: #000000; line-height: 1.4; }
+  
+  .more-section { padding: 12px 0; border-top: 1px solid #f0f0f3; }
+  .more-section:first-of-type { border-top: none; }
+  .more-list { list-style: none; padding: 0; margin: 0; }
+  .more-list-item { display: flex; justify-content: space-between; align-items: center; font-size: 14px; padding: 8px 0; color: var(--text-black); }
+  .more-list-item span { font-size: 12px; color: var(--text-gray); }
+  .more-danger { color: #d34747; }
+
+
+  /* 하단바 */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 420px; height: 85px;
+    background: white; display: flex; justify-content: space-between;
+    padding: 15px 30px 25px;
+    border-top-left-radius: 0; border-top-right-radius: 0;
+    box-shadow: 0 -8px 28px rgba(0,0,0,0.22); z-index: 9999;
+  }
+  .nav-item { 
+    display: flex; flex-direction: column; align-items: center; gap: 6px; 
+    color: var(--nav-inactive); cursor: pointer; font-weight: 500;
+  }
+  .nav-item img { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-text { font-size: 10px; font-weight: 600; }
+  .nav-item.active { color: var(--primary-blue); font-weight: 600; }
+  .nav-item.active .home-icon { content: url("./src/assets/navbar/active_home.svg"); }
+  .nav-item.active .community-icon { content: url("./src/assets/navbar/active_community.svg"); }
+  .nav-item.active .reservation-icon { content: url("./src/assets/navbar/active_reservation.svg"); }
+  .nav-item.active .chat-icon { content: url("./src/assets/navbar/active_chat.svg"); }
+  .nav-item.active .more-icon { content: url("./src/assets/navbar/active_more.svg"); }
+
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  
+  <div id="homePage" class="page page-home">
+    <header>
+      <div class="logo">MEOMUM</div>
+      <div class="login-text" onclick="location.href='/meomum/login'">로그인</div>
+    </header>
+
+    <div class="search-wrapper">
+      <div class="search-box">
+        <img class="search-icon" src="./src/assets/search.svg" />
+        <input type="text" class="search-text" placeholder="검색을 시작해 보세요">
+      </div>
+    </div>
+
+    <div class="home-main-panel">
+      <div class="tab-container">
+        <div class="tab-wrapper">
+          <div class="tab-btn active">추천</div>
+          <div class="tab-btn">카테고리</div>
+        </div>
+      </div>
+
+      <div class="hero-text">
+        <h2>어떤 삶을 살고 싶으세요?</h2>
+        <p>현재 트렌드를 확인해 보세요</p>
+      </div>
+
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=800&auto=format&fit=crop" class="card-img">
+            <div class="card-overlay">
+              <div class="card-title">발리에서의<br>디지털 노마드?</div>
+              <img class="heart-icon" src="./src/assets/like.svg" />
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800&auto=format&fit=crop" class="card-img">
+            <div class="card-overlay">
+              <div class="card-title">제주도 푸른밤<br>한 달 살기</div>
+              <img class="heart-icon" src="./src/assets/like.svg" />
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=800&auto=format&fit=crop" class="card-img">
+            <div class="card-overlay">
+              <div class="card-title">스위스<br>힐링 여행</div>
+              <img class="heart-icon" src="./src/assets/like.svg" />
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=800&auto=format&fit=crop" class="card-img">
+            <div class="card-overlay">
+              <div class="card-title">파리<br>예술 기행</div>
+              <img class="heart-icon" src="./src/assets/like.svg" />
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <img src="https://images.unsplash.com/photo-1522814234026-6466185a5390?q=80&w=800&auto=format&fit=crop" class="card-img">
+            <div class="card-overlay">
+              <div class="card-title">그리스 산토리니<br>낭만 여행</div>
+              <img class="heart-icon" src="./src/assets/like.svg" />
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <img src="https://images.unsplash.com/photo-1517409540030-97b0a3f901a1?q=80&w=800&auto=format&fit=crop" class="card-img">
+            <div class="card-overlay">
+              <div class="card-title">태국 푸켓에서<br>요가 명상</div>
+              <img class="heart-icon" src="./src/assets/like.svg" />
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <img src="https://images.unsplash.com/photo-1506197603052-3be91368c227?q=80&w=800&auto=format&fit=crop" class="card-img">
+            <div class="card-overlay">
+              <div class="card-title">미국 로드트립<br>대자연 탐험</div>
+              <img class="heart-icon" src="./src/assets/like.svg" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-pagination-custom"></div>
+
+      <div class="cta-area">
+        <button class="cta-btn">바로 떠나기</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="communityPage" class="page page-community" style="display:none;">
+    <header class="comm-header">
+      <h2>커뮤니티</h2>
+      <img class="comm-header-icon" src="./src/assets/search.svg" />
+    </header>
+
+    <nav class="comm-tabs">
+      <div class="comm-tab-item active">추천</div>
+      <div class="comm-tab-item">공지사항</div>
+      <div class="comm-tab-item">이벤트/혜택</div>
+      <div class="comm-tab-item">후기</div>
+      <div class="comm-tab-item">매거진</div>
+      <div class="comm-tab-item">게시판</div>
+    </nav>
+
+    <div class="comm-banner">
+      <div class="comm-banner-overlay">
+        <span class="comm-banner-label">공지사항</span>
+        <div class="comm-banner-title">머뭄 서비스 안내</div>
+      </div>
+    </div>
+
+    <section class="comm-section">
+      <div class="comm-section-header">
+        <div>
+          <div class="comm-title">이런걸 찾고 있나요?</div>
+          <div class="comm-subtitle">좋아하실 라이프 스타일 콘텐츠를 추천드려요</div>
+        </div>
+      </div>
+      <div class="comm-scroll-row">
+        <div class="cat-card">
+          <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400" class="cat-img">
+          <div class="cat-overlay"><span class="cat-text">반려동반</span></div>
+        </div>
+        <div class="cat-card">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400" class="cat-img">
+          <div class="cat-overlay"><span class="cat-text">바다</span></div>
+        </div>
+        <div class="cat-card">
+          <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400" class="cat-img">
+          <div class="cat-overlay"><span class="cat-text">시골살이</span></div>
+        </div>
+        <div class="cat-card">
+          <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=400" class="cat-img">
+          <div class="cat-overlay"><span class="cat-text">산</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="comm-section">
+      <div class="comm-section-header">
+        <div class="comm-title">HOT 리뷰</div>
+      </div>
+      <div class="review-grid">
+        <article class="review-card">
+          <div class="review-img-box">
+            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400" class="review-img">
+          </div>
+          <h4 class="review-title">취업 전, 필요했던 시간</h4>
+          <p class="review-desc">앞으로 무엇을 하며 살아야 할지 모르겠고, 졸업은 했지만 이대로 사는 게 맞는지...</p>
+        </article>
+        <article class="review-card">
+          <div class="review-img-box">
+            <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?w=400" class="review-img">
+          </div>
+          <h4 class="review-title">번아웃에서 벗어나기</h4>
+          <p class="review-desc">지쳐서 아무것도 하기 싫었는데, 작은 기록부터 시작하니 마음이 한결 가벼워졌...</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="comm-section">
+      <div class="comm-section-header">
+        <div class="comm-title">매거진</div>
+        <div class="comm-more-link">더보기</div>
+      </div>
+      <div class="comm-scroll-row">
+        <article class="magazine-card">
+          <div class="mag-img-box">
+            <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400" class="mag-img">
+          </div>
+          <div class="mag-content">
+            <h4 class="mag-title">디지털에서 벗어나서</h4>
+            <p class="mag-desc">하루 종일 손에 쥔 스마트폰이 우리의 시선을 가리고 있습니다. 잠시 내려놓는 순간...</p>
+          </div>
+        </article>
+        <article class="magazine-card">
+          <div class="mag-img-box">
+            <img src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b0?w=400" class="mag-img">
+          </div>
+          <div class="mag-content">
+            <h4 class="mag-title">휴식이 곧 생산성</h4>
+            <p class="mag-desc">과로와 번아웃 사이에서 진짜 회복은 '아무것도 하지 않음'에서 시작됩니다.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="comm-section">
+      <div class="comm-section-header">
+        <div class="comm-title">그룹 & 챌린지</div>
+        <div class="comm-more-link">더보기</div>
+      </div>
+      <div class="group-grid">
+        <div class="group-card gc-blue">운동</div>
+        <div class="group-card gc-purple">미라클 모닝</div>
+        <div class="group-card gc-pink">식단</div>
+        <div class="group-card gc-orange">감사 일기</div>
+        <div class="group-card gc-green">독서</div>
+        <div class="group-card gc-navy">습관 만들기</div>
+      </div>
+    </section>
+
+    <section class="comm-section" style="margin-bottom: 20px;">
+      <div class="comm-section-header">
+        <div class="comm-title">오늘의 질문</div>
+      </div>
+      <div class="qna-box">
+        <h4 class="qna-title">Q. 요즘 나를 제일 안정시키는 건?</h4>
+        <ul class="qna-list">
+          <li class="qna-item">
+            <span>조용한 밤 산책</span><span class="qna-time">6분 전</span>
+          </li>
+          <li class="qna-item">
+            <span>그냥 혼자 있는 시간</span><span class="qna-time">3분 전</span>
+          </li>
+          <li class="qna-item">
+            <span>아침마다 커피 내릴 때</span><span class="qna-time">1분 전</span>
+          </li>
+          <li class="qna-item">
+            <span>운동 끝나고 샤워하고 나왔을 때</span><span class="qna-time">방금</span>
+          </li>
+        </ul>
+        <button class="qna-btn">한줄 남기기</button>
+      </div>
+    </section>
+  </div>
+
+  <div id="reservationPage" class="page page-reservation" style="display:none;">
+    
+    <header class="reservation-header-custom">
+      <h2>한달살이</h2>
+      <div class="header-links">
+        <span>예약</span>
+        <span>상담사 연결</span>
+      </div>
+    </header>
+
+    <div class="reservation-hero-card">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800" class="reservation-hero-img" alt="삼척 정하동" />
+      <div class="reservation-hero-overlay"></div>
+      <div class="reservation-hero-title">삼척 정하동</div>
+      <button class="reservation-hero-btn" type="button">둘러보기</button>
+    </div>
+
+    <section class="date-chip-row">
+      <button class="date-chip">all</button>
+      <button class="date-chip">10</button>
+      <button class="date-chip active">11</button>
+      <button class="date-chip">12</button>
+      <button class="date-chip">13</button>
+      <button class="date-chip">end</button>
+    </section>
+
+    <section class="reservation-card">
+      <div class="reservation-card-header">
+        <h3>체크리스트</h3>
+        <span class="link-sm">전체보기</span>
+      </div>
+      <ul class="mission-list">
+        <li class="mission-item">
+          <span>오늘의 미션 선택</span>
+          <div class="mission-checkbox done"></div>
+        </li>
+        <li class="mission-item">
+          <span>호수공원 산책하기</span>
+          <div class="mission-checkbox"></div>
+        </li>
+        <li class="mission-item">
+          <span>카페에서 독서하기</span>
+          <div class="mission-checkbox"></div>
+        </li>
+        <li class="mission-item">
+          <span>간식 재료 사기</span>
+          <div class="mission-checkbox"></div>
+        </li>
+        <li class="mission-item">
+          <span>간식 만들기</span>
+          <div class="mission-checkbox"></div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="reservation-card">
+      <div class="reservation-card-header">
+        <h3>오늘의 미션</h3>
+        <span class="link-sm">찾아보기</span>
+      </div>
+      <p class="reservation-subtext">하고 싶은것 하나를 선택하세요</p>
+      
+      <button class="mission-main-button primary" type="button">도서관 들려서 책 읽기</button>
+      <button class="mission-main-button secondary" type="button">공방가서 아크릴화 그려보기</button>
+    </section>
+
+    <section class="reservation-card">
+      <div class="reservation-card-header">
+        <h3>일기</h3>
+      </div>
+      <p class="diary-text">오늘 비가 와서 너무 귀찮았지만, 도서관에서 책을...</p>
+      <button class="diary-write-btn" type="button">글쓰기</button>
+    </section>
+
+    <section class="reservation-card">
+      <div class="reservation-card-header">
+        <h3>루틴 기록</h3>
+        <span class="link-sm">전체보기</span>
+      </div>
+      <ul class="routine-list">
+        <li class="routine-item">07:14 기상</li>
+        <li class="routine-item routine-desc">총 수면 6h 45m / 깊은 수면 2h 10m</li>
+        <li class="routine-item" style="margin-top:10px;">07:45 아침 명상</li>
+        <li class="routine-item routine-desc">호흡 세션 완료</li>
+      </ul>
+    </section>
+
+    <button class="reservation-cta-btn-large" type="button">
+      <span class="cta-title">상담사 연결</span>
+      <span class="cta-desc">불안 하거나, 걱정되는 점 및 매니징</span>
+    </button>
+  </div>
+
+  <div id="chatPage" class="page page-chat" style="display:none;">
+    <header class="chat-header">
+      <h2>채팅</h2>
+      <button type="button">설정</button>
+    </header>
+
+    <section class="chat-ai-card">
+      <div class="chat-ai-label">AI</div>
+      <p class="chat-ai-sub">숙소 생활의 모든 궁금증, 여기서 바로 해결하세요.</p>
+      <div class="chat-ai-greeting">
+        <p class="chat-ai-greeting-line">안녕하세요</p>
+        <p class="chat-ai-greeting-line">무엇을 도와드릴까요?</p>
+      </div>
+      <button class="chat-ai-start-btn" type="button">AI와 채팅 시작</button>
+    </section>
+
+    <section class="chat-list-section">
+      <ul class="chat-list">
+        <li class="chat-item">
+          <div class="chat-avatar chat-avatar-ai">AI</div>
+          <div class="chat-texts">
+            <div class="chat-name-row">
+              <span class="chat-name">AI</span>
+              <time class="chat-time">오전 7:20</time>
+            </div>
+            <div class="chat-preview">이게 안되는데...</div>
+          </div>
+        </li>
+        <li class="chat-item">
+          <div class="chat-avatar">🧭</div>
+          <div class="chat-texts">
+            <div class="chat-name-row">
+              <span class="chat-name">라이프 패턴 매니저</span>
+              <time class="chat-time">어제</time>
+            </div>
+            <div class="chat-preview">넵, 그러면 3일 후 다시 연락 드리겠습니다.</div>
+          </div>
+        </li>
+        <li class="chat-item">
+          <div class="chat-avatar">✉️</div>
+          <div class="chat-texts">
+            <div class="chat-name-row">
+              <span class="chat-name">문의</span>
+              <time class="chat-time">어제</time>
+            </div>
+            <div class="chat-preview">이런 상황입니다.</div>
+          </div>
+        </li>
+        <li class="chat-item">
+          <div class="chat-avatar">🏡</div>
+          <div class="chat-texts">
+            <div class="chat-name-row">
+              <span class="chat-name">숙소 관리자</span>
+              <time class="chat-time">10월 10일</time>
+            </div>
+            <div class="chat-preview">불편 드려 죄송합니다.</div>
+          </div>
+        </li>
+        <li class="chat-item">
+          <div class="chat-avatar">🔔</div>
+          <div class="chat-texts">
+            <div class="chat-name-row">
+              <span class="chat-name">알림</span>
+              <time class="chat-time">10월 10일</time>
+            </div>
+            <div class="chat-preview">예약이 완료되었습니다.</div>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <div id="morePage" class="page page-more" style="display:none;">
+    <header class="more-header">
+      <h2>더보기</h2>
+    </header>
+
+    <section class="mypage-card">
+      <h3 class="mypage-title">마이페이지</h3>
+      <div class="mypage-avatar">
+        <img class="mypage-avatar-icon" src="./src/assets/profile.svg" />
+      </div>
+      <div class="mypage-link-grid">
+        <button class="mypage-link" type="button">계정 설정</button>
+        <button class="mypage-link" type="button">내가 남긴 댓글</button>
+        <button class="mypage-link" type="button">과거 진행 내역</button>
+        <button class="mypage-link" type="button">내가 좋아요한 글</button>
+      </div>
+    </section>
+
+    <section class="more-report-card">
+      <div class="more-report-header">
+        <h3 class="more-report-title">리포트 및 데이터</h3>
+        <button class="more-report-more" type="button">더보기</button>
+      </div>
+      <article class="report-item">
+        <div class="report-row">
+          <span class="report-location">강릉 원주</span>
+          <time class="report-date">2025.05.03</time>
+        </div>
+        <p class="report-snippet">기상 시간은 평균 오전 7시 30분, 취침은 12시 이후로 불규칙했습니다. 아침 루틴...</p>
+      </article>
+      <article class="report-item">
+        <div class="report-row">
+          <span class="report-location">강릉 원주</span>
+          <time class="report-date">2025.05.01</time>
+        </div>
+      </article>
+    </section>
+
+    <section class="more-section">
+      <ul class="more-list">
+        <li class="more-list-item">앱 버전<span>V1.0.14</span></li>
+        <li class="more-list-item">이용약관</li>
+        <li class="more-list-item">공지사항</li>
+        <li class="more-list-item">자주 묻는 질문</li>
+        <li class="more-list-item">문의하기</li>
+      </ul>
+    </section>
+
+    <section class="more-section">
+      <ul class="more-list">
+        <li class="more-list-item">로그아웃</li>
+        <li class="more-list-item more-danger">회원탈퇴</li>
+      </ul>
+    </section>
+  </div>
+
+</div>
+
+<nav class="bottom-nav">
+  <div class="nav-item active" data-target="home">
+    <img class="home-icon" src="./src/assets/navbar/home.svg" />
+    <div class="nav-text">홈</div>
+  </div>
+  <div class="nav-item" data-target="community">
+    <img class="community-icon" src="./src/assets/navbar/community.svg" />
+    <div class="nav-text">커뮤니티</div>
+  </div>
+  <div class="nav-item" data-target="reservation">
+    <img class="reservation-icon" src="./src/assets/navbar/reservation.svg" />
+    <div class="nav-text">예약</div>
+  </div>
+  <div class="nav-item" data-target="chat">
+    <img class="chat-icon" src="./src/assets/navbar/chat.svg" />
+    <div class="nav-text">채팅</div>
+  </div>
+  <div class="nav-item" data-target="more">
+    <img class="more-icon" src="./src/assets/navbar/more.svg" />
+    <div class="nav-text">더보기</div>
+  </div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  // Swiper 초기화
+  var swiper = new Swiper(".mySwiper", {
+    effect: "cards",
+    grabCursor: true,
+    cardsEffect: {
+      perSlideOffset: 20,
+      perSlideRotate: 6,
+      slideShadows: false,
+      rotate: true
+    },
+    loop: true,
+    pagination: {
+      el: ".swiper-pagination-custom",
+      clickable: true,
+    },
+  });
+
+  // 상단 탭 (홈)
+  document.querySelectorAll('.tab-btn').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+    });
+  });
+  
+  // 상단 탭 (커뮤니티 - NEW)
+  document.querySelectorAll('.comm-tab-item').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.comm-tab-item').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+    });
+  });
+
+  // 날짜 칩 (예약 - NEW)
+  document.querySelectorAll('.date-chip').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.date-chip').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+    });
+  });
+
+  // 미션 체크박스 토글 기능 (예약 - NEW)
+  document.querySelectorAll('.mission-checkbox').forEach(box => {
+    box.addEventListener('click', () => {
+      box.classList.toggle('done');
+    });
+  });
+
+  // 하단 네비게이션 + 페이지 전환
+  function selectNav(element) {
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.classList.remove('active');
+    });
+    element.classList.add('active');
+
+    const target = element.dataset.target;
+    if (!target) return;
+
+    document.querySelectorAll('.page').forEach(page => {
+      page.style.display = 'none';
+    });
+
+    const targetPage = document.getElementById(target + 'Page');
+    if (targetPage) {
+      targetPage.style.display = 'block';
+      
+      // 스와이퍼 리사이즈 처리 (숨겨져 있다가 나올 때 깨짐 방지)
+      if (target === 'home' && swiper) {
+        setTimeout(() => { swiper.update(); }, 0);
+      }
+    }
+  }
+
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.addEventListener('click', () => selectNav(n));
+  });
+</script>
+
+</body>
+</html>

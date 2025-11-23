@@ -1,0 +1,86 @@
+.mypage-card {
+  background: #ffffff;
+  padding: 18px;
+  border-radius: 14px;
+  margin-top: 15px;
+}
+
+.mypage-title {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.mypage-avatar {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.mypage-avatar-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #eeeeee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+
+.mypage-link-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.mypage-link {
+  padding: 12px 0;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #f9f9f9;
+}
+
+.more-report-card {
+  margin-top: 20px;
+  background: #ffffff;
+  padding: 18px;
+  border-radius: 14px;
+}
+
+.more-report-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.report-item {
+  margin-top: 14px;
+}
+
+.report-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.report-snippet {
+  font-size: 13px;
+  margin-top: 4px;
+  color: #666;
+}
+
+.more-list {
+  margin-top: 20px;
+}
+
+.more-list-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.more-danger {
+  color: red;
+}
