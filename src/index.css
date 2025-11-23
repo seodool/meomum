@@ -1,12 +1,12 @@
 body {
   background-color: #FFFFFF !important;
   margin: 0;
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
   min-height: 100vh;
 }
 
-:root {
+/* :root {
   --primary-blue: #0085FF;
   --bg-gray: #FFFFFF;
   --text-black: #111111;
@@ -15,7 +15,7 @@ body {
   --gray-bg: #f2f3f8;
   --text-gray: #7d7d7d;
   --nav-gray: #525b62;
-}
+} */
 
 .app-container {
   width: 100%;
