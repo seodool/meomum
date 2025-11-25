@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>MEOMUM - AI 채팅</title>
+
+  <!-- 공통 폰트 / 리셋 / 글로벌 스타일 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- AI 채팅 전용 스타일 (이 파일 안에서만 사용) -->
+  <style>
+    /* 페이지 레이아웃 */
+    .page-ai-chat {
+      background-color: #ffffff;
+      padding: 0 0 18px;
+    }
+
+    /* 헤더 */
+    .ai-chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px 8px;
+    }
+
+    .ai-back-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      text-decoration: none;
+      color: #111;
+    }
+
+    .ai-back-btn svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .ai-header-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .ai-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ai-icon-btn {
+      border: none;
+      background: none;
+      padding: 0;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .ai-icon-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: #000;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* 메인 영역 */
+    .ai-chat-main {
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 70px);
+      padding: 40px 24px 16px;
+      box-sizing: border-box;
+    }
+
+    /* 인사 문구 (처음 화면 중앙) */
+    .ai-chat-greeting {
+      text-align: center;
+      margin-top: 22vh;
+      margin-bottom: 40px;
+    }
+
+    .ai-hello {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0085ff;
+      margin-bottom: 6px;
+    }
+
+    .ai-question {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111111;
+    }
+
+    /* 흐릿 → 선명 애니메이션 */
+    .ai-text-fade {
+      opacity: 0;
+      filter: blur(8px);
+      transform: translateY(6px);
+      animation: aiTextFadeIn 0.8s ease-out 0.15s forwards;
+    }
+
+    @keyframes aiTextFadeIn {
+      to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+      }
+    }
+
+    /* 실제 채팅이 쌓일 영역 (처음엔 숨김) */
+    .ai-chat-thread {
+      display: none;        /* 첫 메시지 전까지 안 보임 */
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 2px 8px;
+    }
+
+    /* 퀵 액션 카드 */
+    .ai-quick-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: auto;
+      margin-bottom: 12px;
+    }
+
+    .ai-quick-card {
+      flex: 1;
+      border: none;
+      background-color: #f5f6fa;
+      border-radius: 14px;
+      padding: 16px 10px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    /* 눌렀을 때 잠깐 파란색 */
+    .ai-quick-card.pressed {
+      background-color: #0085ff;
+      color: #ffffff;
+    }
+
+    .ai-quick-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .ai-quick-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: inherit;
+    }
+
+    /* 입력 바 (공통) */
+    .ai-input-wrapper {
+      padding-top: 8px;
+    }
+
+    .ai-input-bar {
+      display: flex;
+      align-items: center;
+      height: 52px;
+      padding: 0 14px;
+      border-radius: 14px;
+      background-color: #f4f5f9;
+    }
+
+    .ai-plus-btn {
+      border: none;
+      background: none;
+      padding: 0;
+      margin-right: 10px;
+      font-size: 24px;
+      line-height: 1;
+      color: #666666;
+      cursor: pointer;
+    }
+
+    .ai-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 14px;
+      outline: none;
+      color: #111111;
+    }
+
+    .ai-input::placeholder {
+      color: #999999;
+    }
+
+    /* ====== 공통 말풍선 스타일 (AI / 사용자 공용) ====== */
+
+    .ai-msg-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    /* 등장 애니메이션 */
+    .ai-msg-row-appear {
+      opacity: 0;
+      transform: translateY(6px);
+      animation: aiMsgFadeInUp 0.25s ease-out forwards;
+    }
+
+    @keyframes aiMsgFadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 기본(왼쪽) 아바타 – AI용 */
+    .ai-msg-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background-color: #0085ff;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .ai-msg-body {
+      max-width: 75%;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .ai-msg-name {
+      font-size: 12px;
+      color: #666666;
+    }
+
+    .ai-msg-bubble-row {
+      display: inline-flex;
+      align-items: flex-end;
+    }
+
+    .ai-msg-bubble {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 14px;
+      background-color: #f2f3f7;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #111111;
+    }
+
+    .ai-msg-time {
+      font-size: 11px;
+      color: #999999;
+      margin-left: 6px;
+      position: relative;
+      bottom: 1px;
+      white-space: nowrap;
+    }
+
+    /* 사용자 메시지: 오른쪽 정렬, 아바타 없음 */
+    .ai-msg-row.me {
+      justify-content: flex-end;
+    }
+
+    .ai-msg-row.me .ai-msg-avatar {
+      display: none;
+    }
+
+    .ai-msg-row.me .ai-msg-body {
+      align-items: flex-end;
+    }
+
+    .ai-msg-row.me .ai-msg-bubble {
+      background-color: #0085ff;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+
+  <div class="page page-ai-chat">
+
+    <!-- 상단 헤더 -->
+    <header class="ai-chat-header">
+      <a href="chat.html" class="ai-back-btn" aria-label="채팅 탭으로 돌아가기">
+        <svg viewBox="0 0 24 24">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+      </a>
+
+      <div class="ai-header-title">AI</div>
+
+      <div class="ai-header-actions">
+        <button type="button" class="ai-icon-btn" aria-label="검색">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="20" y2="20" />
+          </svg>
+        </button>
+        <button type="button" class="ai-icon-btn" aria-label="메뉴">
+          <svg viewBox="0 0 24 24">
+            <line x1="4" y1="7" x2="20" y2="7" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="17" x2="20" y2="17" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- 메인 영역 -->
+    <main class="ai-chat-main">
+
+      <!-- 처음 보이는 인사 문구 -->
+      <section class="ai-chat-greeting ai-text-fade">
+        <p class="ai-hello">안녕하세요</p>
+        <p class="ai-question">무엇을 도와드릴까요?</p>
+      </section>
+
+      <!-- 채팅 로그(처음엔 비어 있고 숨겨져 있음) -->
+      <div id="ai-chat-thread" class="ai-chat-thread"></div>
+
+      <!-- 퀵 액션 카드 3개 -->
+      <section class="ai-quick-actions">
+        <!-- 상담사 연결 카드 -->
+        <button
+          type="button"
+          class="ai-quick-card"
+          data-action="consult"
+        >
+          <div class="ai-quick-icon">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c1.5-3 4-5 8-5s6.5 2 8 5" />
+            </svg>
+          </div>
+          <div class="ai-quick-label">상담사 연결</div>
+        </button>
+
+        <button type="button" class="ai-quick-card">
+          <div class="ai-quick-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 11l9-8l9 8v8a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-4H9v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" />
+            </svg>
+          </div>
+          <div class="ai-quick-label">숙소 문의</div>
+        </button>
+
+        <button type="button" class="ai-quick-card">
+          <div class="ai-quick-icon">
+            <svg viewBox="0 0 24 24">
+              <rect x="5" y="4" width="14" height="16" rx="2" ry="2" />
+              <line x1="9" y1="9" x2="15" y2="9" />
+              <line x1="9" y1="13" x2="15" y2="13" />
+            </svg>
+          </div>
+          <div class="ai-quick-label">이전 기록</div>
+        </button>
+      </section>
+
+      <!-- 입력 바 -->
+      <section class="ai-input-wrapper">
+        <div class="ai-input-bar">
+          <button type="button" class="ai-plus-btn" aria-label="추가">+</button>
+          <input
+            type="text"
+            class="ai-input"
+            placeholder="궁금한 내용을 입력해 주세요."
+          />
+        </div>
+      </section>
+
+    </main>
+
+  </div><!-- /.page-ai-chat -->
+
+</div><!-- /.app-container -->
+
+<!-- 기존 main.js 유지 -->
+<script src="js/main.js"></script>
+
+<!-- AI 채팅 전용 스크립트 -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // 이 페이지가 아닐 경우 종료
+    var page = document.querySelector('.page-ai-chat');
+    if (!page) return;
+
+    var input        = page.querySelector('.ai-input');
+    var thread       = page.querySelector('#ai-chat-thread');
+    var greeting     = page.querySelector('.ai-chat-greeting');
+    var quickSection = page.querySelector('.ai-quick-actions');
+    var consultCard  = page.querySelector('.ai-quick-card[data-action="consult"]');
+
+    function formatKoreanTime(d) {
+      var h = d.getHours();
+      var m = d.getMinutes();
+      var ampm = h < 12 ? '오전' : '오후';
+      h = h % 12;
+      if (h === 0) h = 12;
+      return ampm + ' ' + h + ':' + String(m).padStart(2, '0');
+    }
+
+    // 사용자 메시지를 말풍선으로 추가
+    function appendUserMessage(text) {
+      if (!text || !text.trim()) return;
+
+      // 처음 메시지일 때: 인사/퀵액션 숨기고, 채팅 영역 표시
+      if (greeting && greeting.style.display !== 'none') {
+        greeting.style.display = 'none';
+      }
+      if (quickSection && quickSection.style.display !== 'none') {
+        quickSection.style.display = 'none';
+      }
+      if (thread && thread.style.display !== 'block') {
+        thread.style.display = 'block';
+      }
+
+      var row = document.createElement('div');
+      row.className = 'ai-msg-row me ai-msg-row-appear';
+
+      var body = document.createElement('div');
+      body.className = 'ai-msg-body';
+
+      var bubbleRow = document.createElement('div');
+      bubbleRow.className = 'ai-msg-bubble-row';
+
+      var bubble = document.createElement('div');
+      bubble.className = 'ai-msg-bubble';
+      bubble.textContent = text;
+
+      var timeEl = document.createElement('div');
+      timeEl.className = 'ai-msg-time';
+      timeEl.textContent = formatKoreanTime(new Date());
+
+      bubbleRow.appendChild(bubble);
+      bubbleRow.appendChild(timeEl);
+
+      body.appendChild(bubbleRow);
+      row.appendChild(body);
+
+      thread.appendChild(row);
+      thread.scrollTop = thread.scrollHeight;
+    }
+
+    // 엔터로 전송
+    if (input) {
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          var value = input.value;
+          input.value = '';
+          appendUserMessage(value);
+        }
+      });
+    }
+
+    // 상담사 연결 카드: 눌렀을 때 잠깐 파랗게 → 상담 페이지로 이동
+    if (consultCard) {
+      consultCard.addEventListener('click', function (e) {
+        e.preventDefault();
+        consultCard.classList.add('pressed');
+        setTimeout(function () {
+          window.location.href = 'ai-consult.html';
+        }, 150);
+      });
+    }
+  });
+</script>
+</body>
+</html>

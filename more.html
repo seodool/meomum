@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>MEOMUM - 더보기</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="app-container">
+
+  <div class="page page-more">
+    <header class="more-header">
+      <h2>더보기</h2>
+    </header>
+
+    <section class="mypage-card">
+      <h3 class="mypage-title">마이페이지</h3>
+      <div class="mypage-avatar">
+        <img class="mypage-avatar-icon" src="/meomum/assets/profile.svg" />
+      </div>
+      <div class="mypage-link-grid">
+        <button class="mypage-link" type="button">계정 설정</button>
+        <button class="mypage-link" type="button">내가 남긴 댓글</button>
+        <button class="mypage-link" type="button">과거 진행 내역</button>
+        <button class="mypage-link" type="button">내가 좋아요한 글</button>
+      </div>
+    </section>
+
+    <section class="more-report-card">
+      <div class="more-report-header">
+        <h3 class="more-report-title">리포트 및 데이터</h3>
+        <button class="more-report-more" type="button">더보기</button>
+      </div>
+      <article class="report-item">
+        <div class="report-row">
+          <span class="report-location">강릉 원주</span>
+          <time class="report-date">2025.05.03</time>
+        </div>
+        <p class="report-snippet">기상 시간은 평균 오전 7시 30분, 취침은 12시 이후로 불규칙했습니다. 아침 루틴...</p>
+      </article>
+      <article class="report-item">
+        <div class="report-row">
+          <span class="report-location">강릉 원주</span>
+          <time class="report-date">2025.05.01</time>
+        </div>
+      </article>
+    </section>
+
+    <section class="more-section">
+      <ul class="more-list">
+        <li class="more-list-item">앱 버전<span>V1.0.14</span></li>
+        <li class="more-list-item">이용약관</li>
+        <li class="more-list-item">공지사항</li>
+        <li class="more-list-item">자주 묻는 질문</li>
+        <li class="more-list-item">문의하기</li>
+      </ul>
+    </section>
+
+    <section class="more-section">
+      <ul class="more-list">
+        <li class="more-list-item">로그아웃</li>
+        <li class="more-list-item more-danger">회원탈퇴</li>
+      </ul>
+    </section>
+  </div>
+
+</div>
+
+<!-- 하단 네비게이션 -->
+<nav class="bottom-nav">
+  <a class="nav-item" href="home.html">
+    <img class="home-icon" src="/meomum/assets/navbar/home.svg" />
+    <div class="nav-text">홈</div>
+  </a>
+
+  <a class="nav-item" href="community.html">
+    <img class="community-icon" src="/meomum/assets/navbar/community.svg" />
+    <div class="nav-text">커뮤니티</div>
+  </a>
+
+  <a class="nav-item" href="reservation.html">
+    <img class="reservation-icon" src="/meomum/assets/navbar/reservation.svg" />
+    <div class="nav-text">예약</div>
+  </a>
+
+  <a class="nav-item" href="chat.html">
+    <img class="chat-icon" src="/meomum/assets/navbar/chat.svg" />
+    <div class="nav-text">채팅</div>
+  </a>
+
+  <a class="nav-item active" href="more.html">
+    <img class="more-icon" src="/meomum/assets/navbar/active_more.svg" />
+    <div class="nav-text">더보기</div>
+  </a>
+</nav>
+
+<script src="js/main.js"></script>
+</body>
+</html>

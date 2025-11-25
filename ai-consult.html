@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>MEOMUM - 상담사 연결</title>
+
+  <!-- 공통 폰트 / 리셋 / 글로벌 스타일 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- 상담 채팅 전용 스타일 -->
+  <style>
+    .page-ai-thread {
+      background-color: #ffffff;
+      padding: 0 0 18px;
+    }
+
+    /* 헤더 */
+    .ai-chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px 8px;
+    }
+
+    .ai-back-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: auto;          /* 박스 제거 */
+      height: auto;         /* 박스 제거 */
+      padding: 0;           
+      background: none;     /* 배경 제거 */
+      border: none;         /* 혹시 있을 border 제거 */
+      box-shadow: none;     /* 그림자 제거 */
+      color: #111;
+    }
+
+
+    .ai-back-btn svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .ai-header-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .ai-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ai-icon-btn {
+      border: none;
+      background: none;
+      padding: 0;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .ai-icon-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: #000;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* 메인: 헤더 아래 ~ 입력창 위 까지 */
+    .ai-thread-main {
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 70px);
+      padding: 8px 16px 0;
+      box-sizing: border-box;
+    }
+
+    /* 스크롤 영역 */
+    .ai-thread-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 4px 8px;  /* 아래 여백 줄여서 공백 최소화 */
+    }
+
+    /* 날짜 펀치홀 – 텍스트만 감싸고 가운데 정렬 */
+    .ai-date-pill {
+      display: inline-block;        /* 텍스트 길이만큼만 */
+      padding: 4px 12px;
+      margin: 10px auto 16px;       /* 좌우 auto로 정확히 정중앙 */
+      border-radius: 999px;
+      background-color: #f4f5f9;
+      font-size: 11px;
+      color: #777777;
+      text-align: center;
+    }
+
+    /* 메시지 한 줄 */
+    .ai-msg-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    /* 등장 애니메이션 */
+    .ai-msg-row-appear {
+      opacity: 0;
+      transform: translateY(6px);
+      animation: aiMsgFadeInUp 0.25s ease-out forwards;
+    }
+
+    @keyframes aiMsgFadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* AI 아바타 */
+    .ai-msg-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background-color: #0085ff;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .ai-msg-body {
+      max-width: 70%;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .ai-msg-name {
+      font-size: 12px;
+      color: #666666;
+    }
+
+    .ai-msg-bubble-row {
+      display: inline-flex;
+      align-items: flex-end;
+    }
+
+    .ai-msg-bubble {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 14px;
+      background-color: #f2f3f7;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #111111;
+    }
+
+    .ai-msg-time {
+      font-size: 11px;
+      color: #999999;
+      margin-left: 6px;
+      position: relative;
+      bottom: 1px;
+      white-space: nowrap;
+    }
+
+    /* 사용자 메시지 (오른쪽) */
+    .ai-msg-row.me {
+      justify-content: flex-end;
+    }
+
+    .ai-msg-row.me .ai-msg-avatar {
+      display: none;
+    }
+
+    .ai-msg-row.me .ai-msg-body {
+      align-items: flex-end;
+    }
+
+    .ai-msg-row.me .ai-msg-bubble {
+      background-color: #0085ff;
+      color: #ffffff;
+    }
+
+    /* 입력 바 (ai-chat과 동일 디자인) */
+    .ai-input-wrapper {
+      padding: 8px 16px 18px;
+      background-color: #ffffff;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.03);
+    }
+
+    .ai-input-bar {
+      display: flex;
+      align-items: center;
+      height: 52px;
+      padding: 0 14px;
+      border-radius: 14px;
+      background-color: #f4f5f9;
+    }
+
+    .ai-plus-btn {
+      border: none;
+      background: none;
+      padding: 0;
+      margin-right: 10px;
+      font-size: 24px;
+      line-height: 1;
+      color: #666666;
+      cursor: pointer;
+    }
+
+    .ai-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 14px;
+      outline: none;
+      color: #111111;
+    }
+
+    .ai-input::placeholder {
+      color: #999999;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+
+  <div class="page page-ai-thread">
+
+    <!-- 상단 헤더 -->
+    <header class="ai-chat-header">
+      <button id="ai-consult-back" class="ai-back-btn" aria-label="뒤로가기">
+        <svg viewBox="0 0 24 24">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+      </button>
+
+      <div class="ai-header-title">상담사 연결</div>
+
+      <div class="ai-header-actions">
+        <button type="button" class="ai-icon-btn" aria-label="검색">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="20" y2="20" />
+          </svg>
+        </button>
+        <button type="button" class="ai-icon-btn" aria-label="메뉴">
+          <svg viewBox="0 0 24 24">
+            <line x1="4" y1="7" x2="20" y2="7" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="17" x2="20" y2="17" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- 메인 채팅 영역 -->
+    <main class="ai-thread-main">
+      <div id="ai-consult-thread" class="ai-thread-scroll">
+        <!-- JS로 날짜 + 첫 메시지 + 이후 채팅이 들어옴 -->
+      </div>
+    </main>
+
+    <!-- 입력 바 -->
+    <section class="ai-input-wrapper">
+      <div class="ai-input-bar">
+        <button type="button" class="ai-plus-btn" aria-label="추가">+</button>
+        <input
+          type="text"
+          class="ai-input"
+          placeholder="상담사에게 남기고 싶은 내용을 입력해 주세요."
+        />
+      </div>
+    </section>
+
+  </div><!-- /.page-ai-thread -->
+
+</div><!-- /.app-container -->
+
+<script src="js/main.js"></script>
+
+<!-- 상담 화면 전용 스크립트 -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var thread   = document.getElementById('ai-consult-thread');
+    var input    = document.querySelector('.ai-input');
+    var backBtn  = document.getElementById('ai-consult-back');
+
+    /* 0) 뒤로가기 – 이전 페이지가 ai-chat이면 chat.html로 */
+    if (backBtn) {
+      backBtn.addEventListener('click', function () {
+        var ref = document.referrer || '';
+
+        if (ref.indexOf('ai-chat.html') !== -1) {
+          // AI 채팅에서 들어온 경우 → 채팅 탭으로
+          window.location.href = 'chat.html';
+        } else if (ref) {
+          // 그 외에는 원래대로 브라우저 뒤로가기
+          history.back();
+        } else {
+          // referrer 없으면 채팅 탭으로
+          window.location.href = 'chat.html';
+        }
+      });
+    }
+
+    if (!thread) return;
+
+    function formatKoreanDate(d) {
+      var days = ['일', '월', '화', '수', '목', '금', '토'];
+      return (
+        d.getFullYear() +
+        '년 ' +
+        (d.getMonth() + 1) +
+        '월 ' +
+        d.getDate() +
+        '일 ' +
+        days[d.getDay()] +
+        '요일'
+      );
+    }
+
+    function formatKoreanTime(d) {
+      var h = d.getHours();
+      var m = d.getMinutes();
+      var ampm = h < 12 ? '오전' : '오후';
+      h = h % 12;
+      if (h === 0) h = 12;
+      return ampm + ' ' + h + ':' + String(m).padStart(2, '0');
+    }
+
+    var now = new Date();
+
+    /* 1) 날짜 펀치홀 추가 (가운데) */
+    var datePill = document.createElement('div');
+    datePill.className = 'ai-date-pill';
+    datePill.textContent = formatKoreanDate(now);
+    thread.appendChild(datePill);
+
+    /* 2) AI 첫 안내 메시지 추가 */
+    function appendAiMessage(text) {
+      var row = document.createElement('div');
+      row.className = 'ai-msg-row ai-msg-row-appear';
+
+      var avatar = document.createElement('div');
+      avatar.className = 'ai-msg-avatar';
+      avatar.textContent = 'AI';
+
+      var body = document.createElement('div');
+      body.className = 'ai-msg-body';
+
+      var name = document.createElement('div');
+      name.className = 'ai-msg-name';
+      name.textContent = 'AI';
+
+      var bubble = document.createElement('div');
+      bubble.className = 'ai-msg-bubble';
+      bubble.textContent = text;
+
+      var timeEl = document.createElement('div');
+      timeEl.className = 'ai-msg-time';
+      timeEl.textContent = formatKoreanTime(new Date());
+
+      var bubbleRow = document.createElement('div');
+      bubbleRow.className = 'ai-msg-bubble-row';
+      bubbleRow.appendChild(bubble);
+      bubbleRow.appendChild(timeEl);
+
+      body.appendChild(name);
+      body.appendChild(bubbleRow);
+
+      row.appendChild(avatar);
+      row.appendChild(body);
+
+      thread.appendChild(row);
+      thread.scrollTop = thread.scrollHeight;
+    }
+
+    setTimeout(function () {
+      appendAiMessage('상담사를 연결해 드리겠습니다.');
+    }, 250);
+
+    /* 3) 사용자 메시지 추가 */
+    function appendUserMessage(text) {
+      if (!text || !text.trim()) return;
+
+      var row = document.createElement('div');
+      row.className = 'ai-msg-row me ai-msg-row-appear';
+
+      var body = document.createElement('div');
+      body.className = 'ai-msg-body';
+
+      var bubble = document.createElement('div');
+      bubble.className = 'ai-msg-bubble';
+      bubble.textContent = text;
+
+      var timeEl = document.createElement('div');
+      timeEl.className = 'ai-msg-time';
+      timeEl.textContent = formatKoreanTime(new Date());
+
+      var bubbleRow = document.createElement('div');
+      bubbleRow.className = 'ai-msg-bubble-row';
+      bubbleRow.appendChild(bubble);
+      bubbleRow.appendChild(timeEl);
+
+      body.appendChild(bubbleRow);
+      row.appendChild(body);
+
+      thread.appendChild(row);
+      thread.scrollTop = thread.scrollHeight;
+    }
+
+    if (input) {
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          var value = input.value;
+          input.value = '';
+          appendUserMessage(value);
+        }
+      });
+    }
+  });
+</script>
+
+</body>
+</html>

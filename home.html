@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>MEOMUM - 홈</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="app-container">
+
+  <div class="page page-home">
+    <header>
+      <div class="logo">MEOMUM</div>
+      <div class="login-text" onclick="location.href='/meomum/login'">로그인</div>
+    </header>
+
+    <div class="search-wrapper">
+      <div class="search-box">
+        <img class="search-icon" src="/meomum/assets/search.svg" />
+        <input type="text" class="search-text" placeholder="검색을 시작해 보세요">
+      </div>
+    </div>
+
+    <div class="home-main-panel">
+      <!-- 상단 탭 -->
+      <div class="tab-container">
+        <div class="tab-wrapper">
+          <div class="tab-slider"></div>
+          <div class="tab-btn active" data-index="0">추천</div>
+          <div class="tab-btn" data-index="1">카테고리</div>
+        </div>
+      </div>
+
+      <!-- hero 텍스트: 탭 따라 바뀜 -->
+      <div class="hero-text">
+        <h2>어떤 삶을 살고 싶으세요?</h2>
+        <p>현재 트렌드를 확인해 보세요</p>
+      </div>
+
+      <!-- 카테고리 영역 -->
+      <div class="category-grid-wrapper">
+        <div class="category-grid">
+          <button class="category-chip">서울</button>
+          <button class="category-chip">제주도</button>
+          <button class="category-chip">부산</button>
+          <button class="category-chip">강원도</button>
+          <button class="category-chip">시골</button>
+          <button class="category-chip">가족</button>
+          <button class="category-chip">도쿄</button>
+          <button class="category-chip">해외</button>
+        </div>
+      </div>
+
+      <!-- 추천 카드 슬라이더 전체 -->
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+
+          <!-- 1. 발리 -->
+          <div class="swiper-slide">
+            <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=900&q=80" class="card-img">
+            <div class="card-overlay">
+              <div class="card-title">발리에서의<br>디지털 노마드?</div>
+              <img class="heart-icon" src="/meomum/assets/like.svg" />
+            </div>
+          </div>
+
+          <!-- 2. 제주 -->
+          <div class="swiper-slide">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80" class="card-img">
+            <div class="card-overlay">
+              <div class="card-title">제주도 푸른밤<br>한 달 살기</div>
+              <img class="heart-icon" src="/meomum/assets/like.svg" />
+            </div>
+          </div>
+
+          <!-- 3. 스위스 -->
+          <div class="swiper-slide">
+            <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=900&q=80" class="card-img">
+            <div class="card-overlay">
+              <div class="card-title">스위스<br>힐링 여행</div>
+              <img class="heart-icon" src="/meomum/assets/like.svg" />
+            </div>
+          </div>
+
+          <!-- 4. 파리 (이미지 변경) -->
+          <div class="swiper-slide">
+            <img src="https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=900&q=80" class="card-img">
+            <div class="card-overlay">
+              <div class="card-title">파리<br>예술가로 살아보기</div>
+              <img class="heart-icon" src="/meomum/assets/like.svg" />
+            </div>
+          </div>
+
+          <!-- 5. 그리스 (이미지 변경) -->
+          <div class="swiper-slide">
+            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80" class="card-img">
+            <div class="card-overlay">
+              <div class="card-title">그리스 산토리니<br>낭만 여행</div>
+              <img class="heart-icon" src="/meomum/assets/like.svg" />
+            </div>
+          </div>
+
+          <!-- 6. 태국 (이미지 변경) -->
+          <div class="swiper-slide">
+            <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1200&q=80" class="card-img">
+            <div class="card-overlay">
+              <div class="card-title">태국 푸켓에서<br>요가 명상</div>
+              <img class="heart-icon" src="/meomum/assets/like.svg" />
+            </div>
+          </div>
+
+          <!-- 7. 미국 로드트립 → 번아웃 검사 카드 -->
+          <div class="swiper-slide">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80" class="card-img">
+            <div class="card-overlay">
+              <div class="card-title">번아웃 <br>검사해보기</div>
+              <img class="heart-icon" src="/meomum/assets/like.svg" />
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 페이지네이션 -->
+      <div class="swiper-pagination-custom"></div>
+      
+
+      <!-- CTA 버튼 -->
+      <div class="cta-area">
+        <button class="cta-btn" onclick="window.location.href='map_search.html'">바로 떠나기</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 하단 네비게이션 -->
+<nav class="bottom-nav">
+  <a class="nav-item active" href="home.html">
+    <img class="home-icon" src="/meomum/assets/navbar/active_home.svg" />
+    <div class="nav-text">홈</div>
+  </a>
+
+  <a class="nav-item" href="community.html">
+    <img class="community-icon" src="/meomum/assets/navbar/community.svg" />
+    <div class="nav-text">커뮤니티</div>
+  </a>
+
+  <a class="nav-item" href="reservation.html">
+    <img class="reservation-icon" src="/meomum/assets/navbar/reservation.svg" />
+    <div class="nav-text">예약</div>
+  </a>
+
+  <a class="nav-item" href="chat.html">
+    <img class="chat-icon" src="/meomum/assets/navbar/chat.svg" />
+    <div class="nav-text">채팅</div>
+  </a>
+
+  <a class="nav-item" href="more.html">
+    <img class="more-icon" src="/meomum/assets/navbar/more.svg" />
+    <div class="nav-text">더보기</div>
+  </a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
