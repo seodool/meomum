@@ -13,9 +13,13 @@
 
   <!-- 상담 채팅 전용 스타일 -->
   <style>
+    .app-container {
+      padding-bottom: 0;
+    }
+
     .page-ai-thread {
       background-color: #ffffff;
-      padding: 0 0 18px;
+      padding: 0;
     }
 
     /* 헤더 */
@@ -87,9 +91,10 @@
     .ai-thread-main {
       display: flex;
       flex-direction: column;
-      min-height: calc(100vh - 70px);
+      /* min-height: calc(100vh - 70px); */
       padding: 8px 16px 0;
       box-sizing: border-box;
+      overflow: hidden;
     }
 
     /* 스크롤 영역 */

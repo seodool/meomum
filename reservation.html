@@ -18,8 +18,8 @@
     <header class="reservation-header-custom">
       <h2>한달살이</h2>
       <div class="header-links">
-        <span>예약</span>
-        <span>상담사 연결</span>
+        <span onclick="window.location.href='map_search.html'">예약</span>
+        <span onclick="window.location.href='ai-consult.html'">상담사 연결</span>
       </div>
     </header>
 
@@ -100,7 +100,11 @@
       </ul>
     </section>
 
-    <button class="reservation-cta-btn-large" type="button">
+    <!-- ✅ 상담사 연결 버튼에 ai-consult.html 이동 연결 -->
+    <button
+      class="reservation-cta-btn-large"
+      type="button"
+      onclick="window.location.href='ai-consult.html'">
       <span class="cta-title">상담사 연결</span>
       <span class="cta-desc">불안 하거나, 걱정되는 점 및 매니징</span>
     </button>
@@ -111,32 +115,51 @@
 
 <!-- 하단 네비게이션 -->
 <nav class="bottom-nav">
-  <a class="nav-item" href="home.html">
+  <div class="nav-item" onclick="window.location.href='home.html'">
     <img class="home-icon" src="/meomum/assets/navbar/home.svg" />
     <div class="nav-text">홈</div>
-  </a>
-
-  <a class="nav-item" href="community.html">
+  </div>
+  <div class="nav-item" onclick="window.location.href='community.html'">
     <img class="community-icon" src="/meomum/assets/navbar/community.svg" />
     <div class="nav-text">커뮤니티</div>
-  </a>
-
-  <a class="nav-item active" href="reservation.html">
+  </div>
+  <div class="nav-item active" onclick="window.location.href='reservation.html'">
     <img class="reservation-icon" src="/meomum/assets/navbar/active_reservation.svg" />
     <div class="nav-text">예약</div>
-  </a>
-
-  <a class="nav-item" href="chat.html">
+  </div>
+  <div class="nav-item" onclick="window.location.href='chat.html'">
     <img class="chat-icon" src="/meomum/assets/navbar/chat.svg" />
     <div class="nav-text">채팅</div>
-  </a>
-
-  <a class="nav-item" href="more.html">
+  </div>
+  <div class="nav-item" onclick="window.location.href='more.html'">
     <img class="more-icon" src="/meomum/assets/navbar/more.svg" />
     <div class="nav-text">더보기</div>
-  </a>
+  </div>
 </nav>
 
 <script src="js/main.js"></script>
+
+<!-- ✅ 체크리스트 + 날짜칩 동작 추가 스크립트 -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // 체크리스트 토글
+    const boxes = document.querySelectorAll('.mission-checkbox');
+    boxes.forEach(box => {
+      box.addEventListener('click', function () {
+        box.classList.toggle('done');
+      });
+    });
+
+    // 날짜 칩 active 토글
+    const chips = document.querySelectorAll('.date-chip');
+    chips.forEach(chip => {
+      chip.addEventListener('click', function () {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+      });
+    });
+  });
+</script>
+
 </body>
 </html>
